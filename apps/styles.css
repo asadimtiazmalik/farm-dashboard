@@ -1,0 +1,76 @@
+/* div.row-widget.stSelectbox {
+    background-color:hsl(0, 0%, 93%);
+    border: 1px solid #dcdcdc;
+    font-size: 20px;
+    padding: 20px 20px 20px 20px;
+    box-shadow: 1px;
+    border-radius: 10px;
+}
+/* div.st-au st-ax st-av st-aw st-bv st-bw st-b8 st-b3 st-b4 st-bx st-by st-bz st-c0 st-c1 st-c2 st-c3 st-c4 st-c5 st-c6 st-b1 st-c7 st-c8 st-c9 st-ca st-cb st-cc st-cd{
+    background-color:aquamarine
+    
+} */
+/*div.stSlider{
+    background-color:hsl(0, 0%, 93%);
+    border: 1px solid #dcdcdc;
+    font-size: 20px;
+    padding: 20px 20px 20px 20px;
+    box-shadow: 1px;
+    border-radius: 10px;
+}
+div.row-widget.stRadio{
+    background-color:hsl(0, 0%, 93%);
+    border: 1px solid #dcdcdc;
+    font-size: 20px;
+    padding: 20px 20px 20px 20px;
+    box-shadow: 1px;
+    border-radius: 10px;
+} */
+
+/* div.folium-map leaflet-container leaflet-fade-anim leaflet-grab leaflet-touch-drag{
+    column-width:250px;
+} */
+div.chart-wrapper fit-x fit-y{
+    padding: 20px 20px 20px 20px;
+}
+/* Adapted from https://startbootstrap.com/theme/sb-admin-2 */
+div.css-1r6slb0.e1tzin5v2 {
+    background-color: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    padding: 5% 5% 5% 10%;
+    border-radius: 5px;
+    
+    border-left: 0.5rem solid #9ae1b2 !important;
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15) !important;
+    
+}
+
+label.css-mkogse.e16fv1kl2 {
+    color: #36b9cc !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+}
+
+
+/* Move block container higher */
+div.block-container.css-18e3th9.egzxvld2 {
+  margin-top: -5em;
+}
+
+
+/* Hide hamburger menu and footer */
+div.css-r698ls.e8zbici2 {
+  display: none;
+}
+
+footer.css-ipbk5a.egzxvld4 {
+  display: none;
+}
+
+footer.css-12gp8ed.eknhn3m4 {
+  display: none;
+}
+
+div.vg-tooltip-element {
+  display: none;
+}

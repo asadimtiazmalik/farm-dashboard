@@ -9,8 +9,8 @@ st.set_page_config(page_title="Streamlit Geospatial", layout="wide")
 
 apps = [
     {"func": home.app, "title": "Home", "icon": "house"},
-    {"func": heatmap.app, "title": "Heatmap", "icon": "map"},
-    {"func": upload.app, "title": "Upload", "icon": "cloud-upload"},
+    {"func": heatmap.app, "title": "Timelapse", "icon": "map"},
+    {"func": upload.app, "title": "Raster Viz", "icon": "map"},
 ]
 
 titles = [app["title"] for app in apps]
@@ -36,12 +36,10 @@ with st.sidebar:
     st.sidebar.title("About")
     st.sidebar.info(
         """
-        This web [app](https://share.streamlit.io/giswqs/streamlit-template) is maintained by [Qiusheng Wu](https://wetlands.io). You can follow me on social media:
-            [GitHub](https://github.com/giswqs) | [Twitter](https://twitter.com/giswqs) | [YouTube](https://www.youtube.com/c/QiushengWu) | [LinkedIn](https://www.linkedin.com/in/qiushengwu).
+        This web application is maintained by Asad Imtiaz. You can follow me on social media:
+            [GitHub](https://github.com/asadimtiazmalik) | | [LinkedIn](https://www.linkedin.com/in/asadimtiazmalik).
         
-        Source code: <https://github.com/giswqs/streamlit-template>
-
-        More menu icons: <https://icons.getbootstrap.com>
+        Source code: <https://github.com/asadimtiazmalik/farm-dashboard>
     """
     )
 
