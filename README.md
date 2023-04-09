@@ -1,9 +1,3 @@
-# streamlit-template
+# Wheat Health Monitoring Dashboard
 
-A streamlit app template for geospatial applications based on [streamlit-option-menu](https://github.com/victoryhb/streamlit-option-menu).
-
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/giswqs/streamlit-template/master?urlpath=proxy/8501/)
-
-App URL: <https://share.streamlit.io/giswqs/streamlit-template>
-
-![](https://i.imgur.com/xd64mCi.png)
+![Raster Visualization](https://user-images.githubusercontent.com/65748116/230757994-63a1d4c7-10ca-45d8-8ba2-acd0aa1af85c.jpg)
