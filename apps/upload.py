@@ -5,7 +5,6 @@ import os
 import leafmap.foliumap as leafmap
 from folium.plugins import FloatImage
 from folium.raster_layers import ImageOverlay
-# import geopandas as gpd
 import matplotlib.pyplot as plt
 import pandas as pd 
 import altair as alt
@@ -27,6 +26,94 @@ def save_uploaded_file(file_content, file_name):
         file.write(file_content.getbuffer())
 
     return file_path
+
+def calculate_healthy_area():
+    """
+    Calculate healthy, infected and out of bounds area
+    """
+
+def display_healthy_region(healthy=5.22, infected=1.55, out_of_bounds=2.74):
+    """
+    Display a donut chart indicating the healthy and infected regions.
+
+    Parameters:
+    -----------
+    healthy: float, optional
+        The area in acres of healthy region.
+    infected: float, optional
+        The area in acres of infected region. 
+    out_of_bounds: float, optional
+        The area in acres of out of bounds region.
+
+    Returns:
+    --------
+    altair.Chart
+        A donut chart representing the areas of healthy, infected, and out of bounds regions.
+    """
+    # Define the data for the donut chart
+    source = pd.DataFrame({"category": ["Healthy Area", "Infected Area", "Out of bounds"], 
+                           "area in Acres": [healthy, infected, out_of_bounds]})
+
+    figure = alt.Chart(source).mark_arc(innerRadius=50).encode(
+        theta=alt.Theta(field="area in Acres", type="quantitative"),
+        color=alt.Color(field="category", type="nominal"),
+        opacity = alt.value(0.6),
+    )
+
+    return figure
+
+
+def display_map(center, zoom, geo_json, orthomosaic, layer_title, legend_url, detected=False, opacity=0.7):
+    
+    """
+    Display a map with a satellite tile layer, an orthomosaic image, a health indicator layer,
+    and a legend image. 
+
+    Parameters
+    ----------
+    center: tuple
+        A tuple of two floats representing the latitude and longitude of the map center.
+    zoom: int
+        An integer representing the initial zoom level of the map.
+    geo_json: dict
+        A GeoJSON object representing the health indicator layer.
+    orthomosaic: str
+        The URL or path to the orthomosaic image to be displayed on the map.
+    layer_title: str
+        The name of the orthomosaic layer to be displayed on the map.
+    legend_url: str
+        The URL or path to the legend image to be displayed on the map.
+    detected: bool, optional
+        If True, the health indicator layer will be displayed on the map. Default is False.
+    opacity: float, optional
+        The initial opacity of the orthomosaic layer. Default is 0.7.
+
+    Returns
+    -------
+    leafmap.Map
+        The generated map object.
+    """
+
+
+    map = leafmap.Map(center = center, zoom=zoom)
+    map.add_tile_layer(
+    url="https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
+    name="Google Satellite",
+    attribution="Google",
+    )
+
+    if detected:
+        map.add_geojson(geo_json, layer_name="Health Indicator")
+
+    ImageOverlay(orthomosaic,
+                [[33.672652308289614,73.12770497102615], [33.67436783460362,73.1307913403036]],
+                opacity=opacity, name=layer_title
+                ).add_to(map)
+    
+    FloatImage(legend_url, bottom=30, left=90, width=10).add_to(map)
+
+    return map 
+
 
 
 def app():
@@ -50,27 +137,13 @@ def app():
                 "Select a date", ["16-12-23", "26-12-23", "30-12-23"], index=1
             )
 
-            # if date == "23-12-23":
-            #     dem_23 = os.path.join(out_dir, 'dec-16_rgba_ndvi.png')
-            # elif date == "26-12-23":
-            #     dem_26 = os.path.join(out_dir, 'dec-26_rgba_ndvi.png')
-            # elif date == "30-12-23":
-            #     dem_30 = os.path.join(out_dir, 'dec-30_rgba_ndvi.png')
-
             vg_idx = st.radio(
                 "Select a Vegetation Index",
                 ('NDVI', 'RVI', 'NIR')
             )
 
-            # Define the data for the donut chart
-            source = pd.DataFrame({"category": ["Healthy Area", "Infected Area", "Out of bounds"], "area in Acres": [5.22, 1.55, 2.74]})
-
-            fig = alt.Chart(source).mark_arc(innerRadius=50).encode(
-                theta=alt.Theta(field="area in Acres", type="quantitative"),
-                color=alt.Color(field="category", type="nominal"),
-                opacity = alt.value(0.6),
-            )
             # Display the chart using Streamlit
+            fig = display_healthy_region()
             st.altair_chart(fig, use_container_width=True)
 
 
@@ -107,60 +180,20 @@ def app():
                         vg = "https://user-images.githubusercontent.com/65748116/230503711-e11d3019-a17b-4ab4-a217-924624ba7af4.png"
                     elif vg_idx == 'NIR':
                         vg = "https://user-images.githubusercontent.com/65748116/230503703-42e5b96e-5eb7-40c9-9674-b7420e0bdb2c.png"
-                # file_path = save_uploaded_file(data, data.name)
-                # file_path = dem_26
-                # layer_name = os.path.splitext(data.name)[0]
-            # elif vg_idx:
-            #     fp=""
-            #     # file_path = url
-            #     # layer_name = url.split("/")[-1].split(".")[0]
+
 
             with row1_col1:
-                # if file_path.lower().endswith(".kml"):
-                #     gpd.io.file.fiona.drvsupport.supported_drivers["KML"] = "rw"
-                #     gdf = gpd.read_file(file_path, driver="KML")
-                # else:
-                #     gdf = gpd.read_file(file_path)
-                # lon, lat = leafmap.gdf_centroid(gdf)
-                # if backend == "pydeck":
 
-                #     column_names = gdf.columns.values.tolist()
-                #     random_column = None
-                #     with container:
-                #         random_color = st.checkbox("Apply random colors", True)
-                #         if random_color:
-                #             random_column = st.selectbox(
-                #                 "Select a column to apply random colors", column_names
-                #             )
-
-                m = leafmap.Map(center = (33.67,73.13), zoom=15)
-                m.add_tile_layer(
-                url="https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
-                name="Google Satellite",
-                attribution="Google",
-                )
-
-                # m.add_raster(dem_26, colormap='terrain', layer_name='DEM-26')
-                if isDetected:
-                    m.add_geojson(geo, layer_name="Health Indicator")
                 op = st.slider('Opacity', 0.0, 1.0, 0.7, 0.1)
-                ImageOverlay(dem,
-                            [[33.672652308289614,73.12770497102615], [33.67436783460362,73.1307913403036]],
-                            opacity=op, name='DEM'
-                            ).add_to(m)
-                
-                FloatImage(vg, bottom=30, left=90, width=10).add_to(m)
-
+                m = display_map((33.67,73.13), 15, geo, dem, "DEM", vg, isDetected, op)
                 m.to_streamlit(width=width, height=height)
+
 
 
         else:
             with row1_col1:
                 m = leafmap.Map()
                 st.pydeck_chart(m)
-                # out_dir = "C:\\Users\\DC\\Documents\\pix4d\\dec-26\\4_index\\indices\\ndvi"
-                # dem_26 = os.path.join(out_dir, 'dec-26_rgba_ndvi.png')
-                # geojson = os.path.join(out_dir, 'ndvi.json')
 
 
 
