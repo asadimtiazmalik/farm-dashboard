@@ -9,7 +9,7 @@ st.set_page_config(page_title="Streamlit Geospatial", layout="wide")
 
 apps = [
     {"func": home.app, "title": "Home", "icon": "house"},
-    {"func": heatmap.app, "title": "Timelapse", "icon": "map"},
+    # {"func": heatmap.app, "title": "Timelapse", "icon": "map"},
     {"func": upload.app, "title": "Raster Viz", "icon": "map"},
 ]
 
@@ -37,7 +37,7 @@ with st.sidebar:
     st.sidebar.info(
         """
         This web application is maintained by Asad Imtiaz. You can follow me on social media:
-            [GitHub](https://github.com/asadimtiazmalik) | | [LinkedIn](https://www.linkedin.com/in/asadimtiazmalik).
+            [GitHub](https://github.com/asadimtiazmalik) | [LinkedIn](https://www.linkedin.com/in/asadimtiazmalik).
         
         Source code: <https://github.com/asadimtiazmalik/farm-dashboard>
     """

@@ -186,7 +186,11 @@ def app():
 
                 op = st.slider('Opacity', 0.0, 1.0, 0.7, 0.1)
                 m = display_map((33.67,73.13), 15, geo, dem, "DEM", vg, isDetected, op)
+                print(m.get_bounds())
+                print(m.location)
+                print(m.z)
                 m.to_streamlit(width=width, height=height)
+                
 
 
 
