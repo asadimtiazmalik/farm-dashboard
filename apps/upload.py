@@ -62,8 +62,8 @@ def display_healthy_region(healthy=5.22, infected=1.55, out_of_bounds=2.74):
 
     return figure
 
-
-def display_map(center, zoom, geo_json, orthomosaic, layer_title, legend_url, detected=False, opacity=0.7):
+# @st.cache(ttl=24*60*60)
+def display_map(center, zoom, geo_json, orthomosaic, layer_title, legend_url, coords, detected=False, opacity=0.7):
     
     """
     Display a map with a satellite tile layer, an orthomosaic image, a health indicator layer,
@@ -106,7 +106,7 @@ def display_map(center, zoom, geo_json, orthomosaic, layer_title, legend_url, de
         map.add_geojson(geo_json, layer_name="Health Indicator")
 
     ImageOverlay(orthomosaic,
-                [[33.672652308289614,73.12770497102615], [33.67436783460362,73.1307913403036]],
+                coords,
                 opacity=opacity, name=layer_title
                 ).add_to(map)
     
@@ -123,9 +123,11 @@ def app():
     row1_col1, row1_col2 = st.columns([2, 1])
     width = 930
     height = 600
-    out_dir = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\farm-dashboard\\images"
-    geojs = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\farm-dashboard\\geojson"
-    isDetected = False
+    map_dir = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\farm-dashboard\\images\\map"
+    lgnd_dir = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\farm-dashboard\\images\\legends"
+    geojs = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\farm-dashboard\\geojson\\ndvi"
+    hs = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\farm-dashboard\\geojson\\health_stats"
+    isDetected = True
 
 
     with open('C:\\Users\\DC\\Documents\\MachVIS\\FYP\\farm-dashboard\\apps\\styles.css') as f:
@@ -134,12 +136,12 @@ def app():
         container = st.container()
         with container:
             date = st.selectbox(
-                "Select a date", ["16-12-23", "26-12-23", "30-12-23"], index=1
+                "Select a date", ["26-12-22", "20-01-23", "24-02-23", "20-04-23"], index=1
             )
 
             vg_idx = st.radio(
                 "Select a Vegetation Index",
-                ('NDVI', 'RVI', 'NIR')
+                ('NDVI', 'SAVI')
             )
 
             # Display the chart using Streamlit
@@ -152,44 +154,74 @@ def app():
         # container = st.container()
 
         if date or vg_idx:
-            # geojson = os.path.join(out_dir, 'ndvi.json')
+            # geojson = os.path.join(map_dir, 'ndvi.json')
             if date:
-                if date == "16-12-23":
-                    dem = os.path.join(out_dir, 'dec-16_rgba_ndvi.png')
+                if date == "26-12-22":
+                    # dem = os.path.join(map_dir, 'ndvi/26_dec.png')
+                    geo = os.path.join(geojs, '26_dec.json')
+                    coords = [[33.672652308289614,73.12770497102615], [33.67436783460362,73.1307913403036]]
                     if vg_idx == 'NDVI':
+                        dem = os.path.join(map_dir, 'ndvi/26_dec.png')
                         vg = "https://user-images.githubusercontent.com/65748116/230503462-174267ad-d850-41f7-afc3-b68ae9cd9e18.png"
-                    elif vg_idx == 'RVI':
+                    elif vg_idx == 'SAVI':
+                        dem = os.path.join(map_dir, 'savi/26_dec.png')
+                        # geo = os.path.join(geojs, '20_jan.geojson')
                         vg = "https://user-images.githubusercontent.com/65748116/230503711-e11d3019-a17b-4ab4-a217-924624ba7af4.png"
-                    elif vg_idx == 'NIR':
-                        vg = "https://user-images.githubusercontent.com/65748116/230503703-42e5b96e-5eb7-40c9-9674-b7420e0bdb2c.png"
-                elif date == "26-12-23":
-                    dem = os.path.join(out_dir, 'dec-26_rgba_ndvi.png')
-                    geo = os.path.join(geojs, '26.json')
-                    isDetected = True
+
+                elif date == "20-01-23":
+                    # dem = os.path.join(map_dir, 'dec-26_rgba_ndvi.png')
+                    # geo = os.path.join(geojs, '26.json')
+                    geo = os.path.join(geojs, '20_jan.geojson')
+                    coords = [[33.67373853226241, 73.1275590957505], [33.67529399233269, 73.130218601282]]
                     if vg_idx == 'NDVI':
+                        dem = os.path.join(map_dir, 'ndvi/20_jan.png')
+                        
                         vg = "https://user-images.githubusercontent.com/65748116/230503462-174267ad-d850-41f7-afc3-b68ae9cd9e18.png"
-                    elif vg_idx == 'RVI':
+                    elif vg_idx == 'SAVI':
+                        dem = os.path.join(map_dir, 'savi/20_jan.png')
                         vg = "https://user-images.githubusercontent.com/65748116/230503711-e11d3019-a17b-4ab4-a217-924624ba7af4.png"
-                    elif vg_idx == 'NIR':
-                        vg = "https://user-images.githubusercontent.com/65748116/230503703-42e5b96e-5eb7-40c9-9674-b7420e0bdb2c.png"                    
-                elif date == "30-12-23":
-                    dem = os.path.join(out_dir, 'dec-30_rgba_ndvi.png')
+                  
+                elif date == "24-02-23":
+                    # dem = os.path.join(map_dir, 'dec-30_rgba_ndvi.png')
+                    # geo = os.path.join(geojs, '26.json')
+                    # geo = os.path.join(geojs, '24_feb.geojson')
+                    coords = [[33.67373853226241, 73.1275590957505], [33.67529399233269, 73.130218601282]]
                     if vg_idx == 'NDVI':
+                        geo = os.path.join(geojs, '20_jan.geojson')
+                        dem = os.path.join(map_dir, 'ndvi/24_feb.png')
                         vg = "https://user-images.githubusercontent.com/65748116/230503462-174267ad-d850-41f7-afc3-b68ae9cd9e18.png"
-                    elif vg_idx == 'RVI':
+                    elif vg_idx == 'SAVI':
+                        geo = os.path.join(hs, 'health_stat_24_feb')
+                        dem = os.path.join(map_dir, 'savi/24_feb.png')
                         vg = "https://user-images.githubusercontent.com/65748116/230503711-e11d3019-a17b-4ab4-a217-924624ba7af4.png"
-                    elif vg_idx == 'NIR':
-                        vg = "https://user-images.githubusercontent.com/65748116/230503703-42e5b96e-5eb7-40c9-9674-b7420e0bdb2c.png"
+
+                elif date == "20-04-23":
+                    # dem = os.path.join(map_dir, 'dec-30_rgba_ndvi.png')
+                    # geo = os.path.join(geojs, '26.json')
+                    geo = os.path.join(geojs, '20_apr.geojson')
+                    coords = [[33.67373853226241, 73.1275590957505], [33.67529399233269, 73.130218601282]]
+                    if vg_idx == 'NDVI':
+                        dem = os.path.join(map_dir, 'ndvi/20_apr.png')
+                        vg = "https://user-images.githubusercontent.com/65748116/230503462-174267ad-d850-41f7-afc3-b68ae9cd9e18.png"
+                    elif vg_idx == 'SAVI':
+                        dem = os.path.join(map_dir, 'savi/20_apr.png')
+                        vg = "https://user-images.githubusercontent.com/65748116/230503711-e11d3019-a17b-4ab4-a217-924624ba7af4.png"
 
 
             with row1_col1:
 
                 op = st.slider('Opacity', 0.0, 1.0, 0.7, 0.1)
-                m = display_map((33.67,73.13), 15, geo, dem, "DEM", vg, isDetected, op)
+                m = display_map((33.67,73.13), 15, geo, dem, "DEM", vg, coords, isDetected, op)
                 print(m.get_bounds())
                 print(m.location)
-                print(m.z)
                 m.to_streamlit(width=width, height=height)
+                st.markdown("""# **Analysis**
+        • Average NDVI value is 0.01.
+    • Average SAVI value is 1.29.
+    • Phenological stage is Tillering. 
+    • 5.22 Acres healthy crop area. 
+    • 1.55 Acres unhealthy crop area. 
+                            """)
                 
 
 

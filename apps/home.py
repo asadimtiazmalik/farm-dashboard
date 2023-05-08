@@ -5,7 +5,7 @@ from folium.plugins import FloatImage
 from folium.raster_layers import ImageOverlay
 import geopandas as gpd
 import pandas as pd
-import plost
+# import plost
 import altair as alt
 import numpy as np
 import matplotlib.pyplot as plt
