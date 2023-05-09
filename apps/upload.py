@@ -63,7 +63,7 @@ def display_healthy_region(healthy=5.22, infected=1.55, out_of_bounds=2.74):
     return figure
 
 # @st.cache(ttl=24*60*60)
-def display_map(center, zoom, geo_json, orthomosaic, layer_title, legend_url, coords, detected=False, opacity=0.7):
+def display_map(center, zoom, ndvi_json, health_json, orthomosaic, layer_title, legend_url, coords, detected=False, opacity=0.7):
     
     """
     Display a map with a satellite tile layer, an orthomosaic image, a health indicator layer,
@@ -103,8 +103,9 @@ def display_map(center, zoom, geo_json, orthomosaic, layer_title, legend_url, co
     )
 
     if detected:
-        map.add_geojson(geo_json, layer_name="Health Indicator")
-
+        map.add_geojson(ndvi_json, layer_name="NDVI Map")
+    
+    map.add_geojson(health_json, layer_name="Health Map")
     ImageOverlay(orthomosaic,
                 coords,
                 opacity=opacity, name=layer_title
@@ -159,7 +160,13 @@ def app():
                 if date == "26-12-22":
                     # dem = os.path.join(map_dir, 'ndvi/26_dec.png')
                     geo = os.path.join(geojs, '26_dec.json')
+                    health = os.path.join(hs, 'health_stat_26_dec.json')
                     coords = [[33.672652308289614,73.12770497102615], [33.67436783460362,73.1307913403036]]
+                    ndvi = 0.01
+                    savi = 0.02
+                    h_area = "5.22 Acres"
+                    i_area = "1.55 Acres"
+                    ph_stg = 'Tillering'
                     if vg_idx == 'NDVI':
                         dem = os.path.join(map_dir, 'ndvi/26_dec.png')
                         vg = "https://user-images.githubusercontent.com/65748116/230503462-174267ad-d850-41f7-afc3-b68ae9cd9e18.png"
@@ -172,7 +179,13 @@ def app():
                     # dem = os.path.join(map_dir, 'dec-26_rgba_ndvi.png')
                     # geo = os.path.join(geojs, '26.json')
                     geo = os.path.join(geojs, '20_jan.geojson')
+                    health = os.path.join(hs, 'health_stat_20_jan.json')
                     coords = [[33.67373853226241, 73.1275590957505], [33.67529399233269, 73.130218601282]]
+                    ndvi = 0.25
+                    savi = 0.03
+                    h_area = "4.06 Acres"
+                    i_area = "4.32 Acres"
+                    ph_stg = 'Tillering'                    
                     if vg_idx == 'NDVI':
                         dem = os.path.join(map_dir, 'ndvi/20_jan.png')
                         
@@ -184,10 +197,15 @@ def app():
                 elif date == "24-02-23":
                     # dem = os.path.join(map_dir, 'dec-30_rgba_ndvi.png')
                     # geo = os.path.join(geojs, '26.json')
-                    # geo = os.path.join(geojs, '24_feb.geojson')
+                    geo = os.path.join(geojs, '24_feb.geojson')
+                    health = os.path.join(hs, 'health_stat_24_feb.json')
                     coords = [[33.67373853226241, 73.1275590957505], [33.67529399233269, 73.130218601282]]
+                    ndvi = 0.5
+                    savi = 0.5
+                    h_area = "8.24 Acres"
+                    i_area = "0.998 Acres"
+                    ph_stg = 'Tillering'                    
                     if vg_idx == 'NDVI':
-                        geo = os.path.join(geojs, '20_jan.geojson')
                         dem = os.path.join(map_dir, 'ndvi/24_feb.png')
                         vg = "https://user-images.githubusercontent.com/65748116/230503462-174267ad-d850-41f7-afc3-b68ae9cd9e18.png"
                     elif vg_idx == 'SAVI':
@@ -199,7 +217,13 @@ def app():
                     # dem = os.path.join(map_dir, 'dec-30_rgba_ndvi.png')
                     # geo = os.path.join(geojs, '26.json')
                     geo = os.path.join(geojs, '20_apr.geojson')
+                    health = os.path.join(hs, 'health_stat_20_apr.json')
                     coords = [[33.67373853226241, 73.1275590957505], [33.67529399233269, 73.130218601282]]
+                    ndvi = 0.17
+                    savi = 0.25
+                    h_area = "5.83 Acres"
+                    i_area = "2.41 Acres"
+                    ph_stg = 'Tillering'
                     if vg_idx == 'NDVI':
                         dem = os.path.join(map_dir, 'ndvi/20_apr.png')
                         vg = "https://user-images.githubusercontent.com/65748116/230503462-174267ad-d850-41f7-afc3-b68ae9cd9e18.png"
@@ -211,17 +235,16 @@ def app():
             with row1_col1:
 
                 op = st.slider('Opacity', 0.0, 1.0, 0.7, 0.1)
-                m = display_map((33.67,73.13), 15, geo, dem, "DEM", vg, coords, isDetected, op)
+                m = display_map((33.67,73.13), 15, geo, health, dem, "DEM", vg, coords, isDetected, op)
                 print(m.get_bounds())
                 print(m.location)
                 m.to_streamlit(width=width, height=height)
-                st.markdown("""# **Analysis**
-        • Average NDVI value is 0.01.
-    • Average SAVI value is 1.29.
-    • Phenological stage is Tillering. 
-    • 5.22 Acres healthy crop area. 
-    • 1.55 Acres unhealthy crop area. 
-                            """)
+                st.markdown("# **Analysis**")
+                st.write(":seedling: Average NDVI:",ndvi)
+                st.write(":leaves: Average SAVI: ",savi)
+                st.write(":ear_of_rice: Phenological Stage: ",ph_stg)
+                st.write(":blossom: Healthy Area: ",h_area)
+                st.write(":ladybug: Infected Area: ",i_area)
                 
 
 

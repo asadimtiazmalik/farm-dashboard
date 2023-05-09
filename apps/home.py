@@ -91,8 +91,11 @@ def app():
     with tab2:
             # src = pd.DataFrame({"Date":['16th Dec', '26th Dec', '30th Dec', '3rd Jan'], "NDVI": [0.2,0.5,0.9,0.6], "RVI": [0.1,0.3,0.6,0.5], "NIR": [0.1,0.35,0.66,0.5]})
             chart_data = pd.DataFrame(
-            np.random.randn(4, 3), index= ['16th Dec', '26th Dec', '30th Dec', '3rd Jan'],
-            columns=['NDVI', 'RVI', 'NIR'])
+            [[0.01,0.25], 
+            [0.5,0.17], 
+            [0.02,0.03], 
+            [0.5,0.25]], index= ['26th Dec', '20th Jan', '24th Feb', '20th April'],
+            columns=['NDVI', 'SAVI'])
 
             st.line_chart(chart_data)
             # fig = cd._get_figure()
