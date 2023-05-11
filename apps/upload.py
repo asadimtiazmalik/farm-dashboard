@@ -122,7 +122,7 @@ def app():
     st.title("Upload Vector Data")
 
     row1_col1, row1_col2 = st.columns([2, 1])
-    width = 930
+    width = 950
     height = 600
     map_dir = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\farm-dashboard\\images\\map"
     lgnd_dir = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\farm-dashboard\\images\\legends"

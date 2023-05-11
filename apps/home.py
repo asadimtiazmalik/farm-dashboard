@@ -34,55 +34,7 @@ def app():
     stocks = pd.read_csv('https://raw.githubusercontent.com/dataprofessor/data/master/stocks_toy.csv')
 
     c1, c2 = st.columns((7,3))
-    # with c1:
-    #     scale = alt.Scale(
-    #         domain=["rain"],
-    #         range=["#1f77b4"],
-    #     )
-    #     color = alt.Color("weather:N", scale=scale)
-
-    #     # We create two selections:
-    #     # - a brush that is active on the top panel
-    #     # - a multi-click that is active on the bottom panel
-    #     brush = alt.selection_interval(encodings=["x"])
-    #     click = alt.selection(encodings=["color"])
-
-    #     # Top panel is scatter plot of temperature vs time
-    #     points = (
-    #         alt.Chart()
-    #         .mark_point()
-    #         .encode(
-    #             alt.X("monthdate(date):T", title="Date"),
-    #             alt.Y(
-    #                 "temp_max:Q",
-    #                 title="Maximum Daily Temperature (C)",
-    #                 scale=alt.Scale(domain=[-5, 40]),
-    #             ),
-    #             color=alt.condition(brush, color, alt.value("lightgray")),
-    #             size=alt.Size("precipitation:Q", scale=alt.Scale(range=[5, 200])),
-    #         )
-    #         .properties(width=550, height=300)
-    #         .add_selection(brush)
-    #         .transform_filter(click)
-    #     )
-
-    #     # Bottom panel is a bar chart of weather type
-    #     # bars = (
-    #     #     alt.Chart()
-    #     #     .mark_bar()
-    #     #     .encode(
-    #     #         x="count()",
-    #     #         y="rain",
-    #     #         color=alt.condition(click, color, alt.value("lightgray")),
-    #     #     )
-    #     #     .transform_filter(brush)
-    #     #     .properties(
-    #     #         width=550,
-    #     #     )
-    #     #     .add_selection(click)
-    #     # )
-
-    #     chart = alt.vconcat(points, data=source, title="Islamabad Weather: 2022-2023")
+    
 
     tab1, tab2 = st.tabs(["Climate Data", "Vegetation Indices"])
 
@@ -90,18 +42,33 @@ def app():
             # st.altair_chart(chart, theme="streamlit", use_container_width=True)
     with tab2:
             # src = pd.DataFrame({"Date":['16th Dec', '26th Dec', '30th Dec', '3rd Jan'], "NDVI": [0.2,0.5,0.9,0.6], "RVI": [0.1,0.3,0.6,0.5], "NIR": [0.1,0.35,0.66,0.5]})
-            chart_data = pd.DataFrame(
+            data = pd.DataFrame(
             [[0.01,0.25], 
             [0.5,0.17], 
             [0.02,0.03], 
-            [0.5,0.25]], index= ['26th Dec', '20th Jan', '24th Feb', '20th April'],
+            [0.5,0.25]], index= ['26-12-22', '20-01-23', '24-02-23', '20-04-23'],
             columns=['NDVI', 'SAVI'])
+            # Add more data points
+            # Convert index to datetime objects
+            # data.index = pd.to_datetime(data.index, format='%d-%m-%y')
 
-            st.line_chart(chart_data)
+            # # Add more data points
+            # num_points = 50
+            # new_index = pd.date_range(start=data.index[0], end=data.index[-1], periods=num_points)
+            # new_data = pd.DataFrame(index=new_index, columns=data.columns)
+
+            # for column in data.columns:
+            #     interp_func = np.interp(new_index, data.index, data[column])
+            #     new_data[column] = interp_func
+            # Plot the data using Streamlit line chart
+            # st.line_chart(new_data)
+
+            st.line_chart(data)
             # fig = cd._get_figure()
             # ax = fig.gca()
             # Rotate the xticks
             # ax.set_xticklabels(cd['x'], rotation=45)
+            
     
 
 
