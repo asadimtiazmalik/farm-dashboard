@@ -128,10 +128,13 @@ class UploadApp(HydraHeadApp):
         row1_col1, row1_col2 = st.columns([10,1])
         width = 1200
         height = 1000
-        map_dir = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\images\\map"
-        lgnd_dir = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\images\\legends"
-        geojs = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\geojson\\ndvi"
-        hs = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\geojson\\health_stats"
+        # map_dir = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\images\\map"
+        # lgnd_dir = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\images\\legends"
+        # geojs = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\geojson\\ndvi"
+        # hs = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\geojson\\health_stats"
+        map_dir = './images/map'
+        geojs = './geojson/ndvi'
+        hs = './geojson/health_status'       
         isDetected = True
 
 
