@@ -4,8 +4,12 @@ geopandas
 jupyter-server-proxy
 keplergl
 leafmap
+altair
 localtileserver
 nbserverproxy
 streamlit
 streamlit-option-menu
+hydralit
+pandas
+
 

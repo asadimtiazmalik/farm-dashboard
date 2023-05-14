@@ -1,16 +1,11 @@
 import os
-import geopandas as gpd
 import streamlit as st
-import os  
 import leafmap.foliumap as leafmap
 from folium.plugins import FloatImage
 from folium.raster_layers import ImageOverlay
-import matplotlib.pyplot as plt
 import pandas as pd 
 import altair as alt
 from hydralit import HydraHeadApp
-from pyecharts import options as opts
-from pyecharts.charts import Gauge
 
 
 class UploadApp(HydraHeadApp):
