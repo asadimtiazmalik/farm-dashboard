@@ -5,87 +5,168 @@ from folium.plugins import FloatImage
 from folium.raster_layers import ImageOverlay
 import geopandas as gpd
 import pandas as pd
+from hydralit import HydraHeadApp
+from pychartjs import BaseChart, ChartType, Color
+import textwrap
+import streamlit.components.v1 as components
+import matplotlib.pyplot as plt
+import mplcyberpunk
 # import plost
 import altair as alt
 import numpy as np
 import matplotlib.pyplot as plt
+import json
 
-def app():
-    st.title("Wheat Health Monitoring Dashboard")
+class HomeApp(HydraHeadApp):
+     
+    def run(self):
+        # st.set_page_config(layout="wide")
+        with open('C:\\Users\\DC\\Documents\\MachVIS\\FYP\\farm-dashboard\\apps\\styles.css') as f:
+            st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+        st.markdown('### Metrics')
+        col1, col2, col3 = st.columns(3)
+        col1.metric("Total Area", "11 Acres")
+        col2.metric("Average NDVI", "0.155", "-2%")
+        col3.metric("Phenotypes", "100 +")
 
-    # st.markdown(
-    #     """
-    # A [streamlit](https://streamlit.io) app template for geospatial applications based on [streamlit-option-menu](https://github.com/victoryhb/streamlit-option-menu). 
-    # To create a direct link to a pre-selected menu, add `?page=<app name>` to the URL, e.g., `?page=upload`.
-    # https://share.streamlit.io/giswqs/streamlit-template?page=upload
+        # Row B
 
-    # """
-    # )
-    with open('C:\\Users\\DC\\Documents\\MachVIS\\FYP\\farm-dashboard\\apps\\styles.css') as f:
-        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
-    st.markdown('### Metrics')
-    col1, col2, col3 = st.columns(3)
-    col1.metric("Total Area", "11 Acres")
-    col2.metric("Average NDVI", "0.155", "-2%")
-    col3.metric("Phenotypes", "100 +")
+        data = pd.DataFrame(
+                [[0.01,0.02], 
+                [0.25,0.03], 
+                [0.5,0.5], 
+                [0.17,0.25]], index= ['26-12-22', '20-01-23', '24-02-23', '20-04-23'],
+                columns=['NDVI', 'SAVI'])
+        data.index = pd.to_datetime(data.index, format='%d-%m-%y')
 
-    # Row B
-    source = pd.read_csv('https://raw.githubusercontent.com/tvst/plost/master/data/seattle-weather.csv', parse_dates=['date'])
-    stocks = pd.read_csv('https://raw.githubusercontent.com/dataprofessor/data/master/stocks_toy.csv')
+        def get_temperature_chart():
+            daily_temp = pd.read_csv('C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\data\\daily_temerature.csv')
+            print(daily_temp.head())
+            scale = alt.Scale(
+                domain=["Sunny", "Clear", "Partly cloudy ", "Patchy rain possible", "Cloudy"],
+                range=["#e7ba52", "#a7a7a7", "#aec7e8", "#1f77b4", "#9467bd"],
+            )
+            color = alt.Color("weather:N", scale=scale)
+            brush = alt.selection_interval(encodings=["x"])
+            click = alt.selection_multi(encodings=["color"])
+            points = (
+                alt.Chart(daily_temp, title="Temperature and Rainfall Analysis")
+                .mark_point()
+                .encode(
+                    alt.X("Date:T", title="Date"),
+                    alt.Y(
+                        "Hourly Temperature:Q",
+                        title="Average Daily Temperature (C)",
+                        scale=alt.Scale(domain=[5, 30]),
+                    ),
+                    # color=alt.condition(brush, color, alt.value("lightgray")),
+                    size=alt.Size("Hourly Precipitation:Q", scale=alt.Scale(range=[5, 200]), title = "Daily Precipitation (mm)"),
+                )
+                # .properties(width=550, height=300)
+                # .add_selection(brush)
+                # .transform_filter(click)
+            )
+            areas = (
+                alt.Chart(daily_temp, title=f"Humidity Analysis")
+                .mark_area(
+                    interpolate='monotone',
+                    line={'color':'#e7ba52'},
+                    color=alt.Gradient(
+                        gradient='linear',
+                        stops=[alt.GradientStop(color='white', offset=0),
+                            alt.GradientStop(color='#aec7e8', offset=1)],
+                        x1=1,
+                        x2=1,
+                        y1=1,
+                        y2=0
+                    )
+                ).encode(
+                    alt.X('Date:T'),
+                    alt.Y('Hourly Humidity:Q', title="Daily Humidity (%)")
+                )
+            )
 
-    c1, c2 = st.columns((7,3))
-    
 
-    tab1, tab2 = st.tabs(["Climate Data", "Vegetation Indices"])
 
-    # with tab1:
-            # st.altair_chart(chart, theme="streamlit", use_container_width=True)
-    with tab2:
-            # src = pd.DataFrame({"Date":['16th Dec', '26th Dec', '30th Dec', '3rd Jan'], "NDVI": [0.2,0.5,0.9,0.6], "RVI": [0.1,0.3,0.6,0.5], "NIR": [0.1,0.35,0.66,0.5]})
-            data = pd.DataFrame(
-            [[0.01,0.25], 
-            [0.5,0.17], 
-            [0.02,0.03], 
-            [0.5,0.25]], index= ['26-12-22', '20-01-23', '24-02-23', '20-04-23'],
-            columns=['NDVI', 'SAVI'])
-            # Add more data points
-            # Convert index to datetime objects
-            # data.index = pd.to_datetime(data.index, format='%d-%m-%y')
+            return points, areas
+        
+        def get_chart(data, indice, line_color, gradient_color):
+            hover = alt.selection_single(
+                fields=["index"],
+                nearest=True,
+                on="mouseover",
+                empty="none",
+            )
 
-            # # Add more data points
-            # num_points = 50
-            # new_index = pd.date_range(start=data.index[0], end=data.index[-1], periods=num_points)
-            # new_data = pd.DataFrame(index=new_index, columns=data.columns)
+            areas = (
+                alt.Chart(data.reset_index(), title=f"Evolution of {indice}")
+                .mark_area(
+                    interpolate='monotone',
+                    line={'color':f'{line_color}'},
+                    color=alt.Gradient(
+                        gradient='linear',
+                        stops=[alt.GradientStop(color='white', offset=0),
+                            alt.GradientStop(color=f'{gradient_color}', offset=1)],
+                        x1=1,
+                        x2=1,
+                        y1=1,
+                        y2=0
+                    )
+                ).encode(
+                    alt.X('index:T'),
+                    alt.Y(f'{indice}:Q')
+                )
+            )
 
-            # for column in data.columns:
-            #     interp_func = np.interp(new_index, data.index, data[column])
-            #     new_data[column] = interp_func
-            # Plot the data using Streamlit line chart
-            # st.line_chart(new_data)
+            points = (
+                alt.Chart(data.reset_index())
+                .mark_point(size=50, filled=True, color='red')
+                .encode(
+                    x='index:T',
+                    y=f'{indice}:Q'
+                )
+            )
+        
 
-            st.line_chart(data)
-            # fig = cd._get_figure()
-            # ax = fig.gca()
-            # Rotate the xticks
-            # ax.set_xticklabels(cd['x'], rotation=45)
+
+            return (areas + points).interactive()
+
+        
+        c1, c2 = st.columns((7,5))
+        c3, c4 = st.columns((7,5))
+        with st.container():
+            with c1:
+                chart = get_chart(data, 'NDVI', '#7fc97f', '#fa8d0b')
+                st.altair_chart(
+                    chart.interactive(),
+                    theme="streamlit",
+                    use_container_width=True
+                    )
+            with c2:
+                chart, _ = get_temperature_chart()
+                st.altair_chart(
+                    chart,
+                    theme="streamlit",
+                    use_container_width=True
+                    )
+
+
             
-    
+
+        with st.container():
+            with c3:
+                chart = get_chart(data, 'SAVI', '#7fc97f', '#43ff64d9')
+                st.altair_chart(
+                    chart.interactive(),
+                    theme="streamlit",
+                    use_container_width=True
+                    )
+            with c4:
+                _, chart = get_temperature_chart()
+                st.altair_chart(
+                    chart,
+                    theme="streamlit",
+                    use_container_width=True
+                    )               
 
 
-
-    with c2:
-        st.markdown('### Donut chart')
-        # Define the data for the donut chart
-        source = pd.DataFrame({"category": ["Healthy Area", "Infected Area", "Out of bounds"], "area in Acres": [5.22, 1.55, 2.74]})
-
-        fig = alt.Chart(source).mark_arc(innerRadius=50).encode(
-            theta=alt.Theta(field="area in Acres", type="quantitative"),
-            color=alt.Color(field="category", type="nominal"),
-            opacity = alt.value(0.6),
-        )
-        # Display the chart using Streamlit
-        st.altair_chart(fig, use_container_width=True)
-
-    # Row C
-    # st.markdown('### Line chart')
-    # st.line_chart(seattle_weather, x = 'date', y = ['temp_min', 'temp_max'], height = 200)
