@@ -9,6 +9,9 @@ import matplotlib.pyplot as plt
 import pandas as pd 
 import altair as alt
 from hydralit import HydraHeadApp
+from pyecharts import options as opts
+from pyecharts.charts import Gauge
+
 
 class UploadApp(HydraHeadApp):
 
@@ -37,9 +40,12 @@ class UploadApp(HydraHeadApp):
 
 
 
+
     def run(self):
 
-        def display_healthy_region(healthy=5.22, infected=1.55, out_of_bounds=2.74):
+        
+
+        def display_healthy_region(healthy=5.22, infected=1.55):
             """
             Display a donut chart indicating the healthy and infected regions.
 
@@ -58,18 +64,18 @@ class UploadApp(HydraHeadApp):
                 A donut chart representing the areas of healthy, infected, and out of bounds regions.
             """
             # Define the data for the donut chart
-            source = pd.DataFrame({"category": ["Healthy Area", "Infected Area", "Out of bounds"], 
-                                "area in Acres": [healthy, infected, out_of_bounds]})
+            source = pd.DataFrame({"category": ["Healthy Area", "Infected Area"], 
+                                "area in Acres": [healthy, infected]})
 
             figure = alt.Chart(source).mark_arc(innerRadius=50).encode(
                 theta=alt.Theta(field="area in Acres", type="quantitative"),
                 color=alt.Color(field="category", type="nominal"),
-                opacity = alt.value(0.6),
+                opacity = alt.value(0.7),
             )
 
             return figure
 
-        # @st.cache(ttl=24*60*60)
+        # @st.cache_data()
         def display_map(center, zoom, ndvi_json, health_json, orthomosaic, layer_title, legend_url, coords, detected=False, opacity=0.7):
             
             """
@@ -252,6 +258,13 @@ class UploadApp(HydraHeadApp):
                         print(m.get_bounds())
                         print(m.location)
                         m.to_streamlit()
+                    
+                    # with row1_col2:
+                    #     st.altair_chart(display_healthy_region(), use_container_width=True)
+
+                  
+                    
+                    
 
 
                     # else:

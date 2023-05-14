@@ -39,9 +39,9 @@ class HomeApp(HydraHeadApp):
                 columns=['NDVI', 'SAVI'])
         data.index = pd.to_datetime(data.index, format='%d-%m-%y')
 
+        @st.cache_data()
         def get_temperature_chart():
             daily_temp = pd.read_csv('C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\data\\daily_temerature.csv')
-            print(daily_temp.head())
             scale = alt.Scale(
                 domain=["Sunny", "Clear", "Partly cloudy ", "Patchy rain possible", "Cloudy"],
                 range=["#e7ba52", "#a7a7a7", "#aec7e8", "#1f77b4", "#9467bd"],
