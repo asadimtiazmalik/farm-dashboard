@@ -132,9 +132,9 @@ class UploadApp(HydraHeadApp):
         # lgnd_dir = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\images\\legends"
         # geojs = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\geojson\\ndvi"
         # hs = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\geojson\\health_stats"
-        map_dir = "./images/map"
-        geojs = "./geojson/ndvi"
-        hs = "./geojson/health_status"       
+        map_dir = "asadimtiazmalik/farm-dashboard/app_v2/images/map"
+        geojs = "asadimtiazmalik/farm-dashboard/app_v2/geojson/ndvi"
+        hs = "asadimtiazmalik/farm-dashboard/app_v2/geojson/health_status"       
         isDetected = True
 
 
@@ -194,8 +194,8 @@ class UploadApp(HydraHeadApp):
                                 vg = "https://user-images.githubusercontent.com/89920086/236948605-4210eff5-a36a-4363-b53a-b82c8e39d575.png"
 
                         elif date == "20-01-23":
-                            # dem = os.path.join(map_dir, 'dec-26_rgba_ndvi.png')
-                            # geo = os.path.join(geojs, '26.json')
+                            # dem = os.path.join(map_dir, 'dec-26_rgba_ndvi.png')"./images/map"
+                            # geo = os.path.join(geojs, '26.json')"./geojson/ndvi"
                             geo = os.path.join(geojs, '20_jan.geojson')
                             health = os.path.join(hs, 'health_stat_20_jan.json')
                             coords = [[33.67373853226241, 73.1275590957505], [33.67529399233269, 73.130218601282]]
@@ -252,7 +252,7 @@ class UploadApp(HydraHeadApp):
                     with row1_col1:
 
 
-                        m = display_map((33.67,73.13), 15, geo, health, dem, "DEM", vg, coords, isDetected, op)
+                        m = display_map((33.6752939,73.1302186), 17, geo, health, dem, "DEM", vg, coords, isDetected, op)
                         print(m.get_bounds())
                         print(m.location)
                         m.to_streamlit()
