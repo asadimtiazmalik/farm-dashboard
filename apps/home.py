@@ -21,7 +21,7 @@ class HomeApp(HydraHeadApp):
      
     def run(self):
         # st.set_page_config(layout="wide")
-        with open('C:\\Users\\DC\\Documents\\MachVIS\\FYP\\farm-dashboard\\apps\\styles.css') as f:
+        with open('C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\apps\\styles.css') as f:
             st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
         st.markdown('### Metrics')
         col1, col2, col3 = st.columns(3)

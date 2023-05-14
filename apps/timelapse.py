@@ -127,10 +127,10 @@ class UploadApp(HydraHeadApp):
         row1_col1, row1_col2 = st.columns([10,1])
         width = 1200
         height = 1000
-        map_dir = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\farm-dashboard\\images\\map"
-        lgnd_dir = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\farm-dashboard\\images\\legends"
-        geojs = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\farm-dashboard\\geojson\\ndvi"
-        hs = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\farm-dashboard\\geojson\\health_stats"
+        map_dir = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\images\\map"
+        lgnd_dir = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\images\\legends"
+        geojs = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\geojson\\ndvi"
+        hs = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\geojson\\health_stats"
         isDetected = True
 
 
@@ -187,7 +187,7 @@ class UploadApp(HydraHeadApp):
                             elif vg_idx == 'SAVI':
                                 dem = os.path.join(map_dir, 'savi/26_dec.png')
                                 # geo = os.path.join(geojs, '20_jan.geojson')
-                                vg = "https://user-images.githubusercontent.com/65748116/230503711-e11d3019-a17b-4ab4-a217-924624ba7af4.png"
+                                vg = "https://user-images.githubusercontent.com/89920086/236948605-4210eff5-a36a-4363-b53a-b82c8e39d575.png"
 
                         elif date == "20-01-23":
                             # dem = os.path.join(map_dir, 'dec-26_rgba_ndvi.png')
@@ -202,11 +202,10 @@ class UploadApp(HydraHeadApp):
                             ph_stg = 'Stem Elongation'                    
                             if vg_idx == 'NDVI':
                                 dem = os.path.join(map_dir, 'ndvi/20_jan.png')
-                                
-                                vg = "https://user-images.githubusercontent.com/65748116/230503462-174267ad-d850-41f7-afc3-b68ae9cd9e18.png"
+                                vg = "https://user-images.githubusercontent.com/89920086/236948717-cea6b7ac-6a0e-4652-81ee-56d1ace7c1be.png"
                             elif vg_idx == 'SAVI':
                                 dem = os.path.join(map_dir, 'savi/20_jan.png')
-                                vg = "https://user-images.githubusercontent.com/65748116/230503711-e11d3019-a17b-4ab4-a217-924624ba7af4.png"
+                                vg = "https://user-images.githubusercontent.com/89920086/236949397-75e6b114-4d12-4dc2-8f48-5452413dbf7a.png"
                         
                         elif date == "24-02-23":
                             # dem = os.path.join(map_dir, 'dec-30_rgba_ndvi.png')
@@ -221,11 +220,11 @@ class UploadApp(HydraHeadApp):
                             ph_stg = 'Heading'                    
                             if vg_idx == 'NDVI':
                                 dem = os.path.join(map_dir, 'ndvi/24_feb.png')
-                                vg = "https://user-images.githubusercontent.com/65748116/230503462-174267ad-d850-41f7-afc3-b68ae9cd9e18.png"
+                                vg = "https://user-images.githubusercontent.com/89920086/236948650-273224df-35c4-4644-99ab-216e6b1ec70f.png"
                             elif vg_idx == 'SAVI':
-                                geo = os.path.join(hs, 'health_stat_24_feb')
+                                # geo = os.path.join(hs, 'health_stat_24_feb')
                                 dem = os.path.join(map_dir, 'savi/24_feb.png')
-                                vg = "https://user-images.githubusercontent.com/65748116/230503711-e11d3019-a17b-4ab4-a217-924624ba7af4.png"
+                                vg = "https://user-images.githubusercontent.com/89920086/236949313-727ce5f2-1e61-42d0-be1c-9c5b34ca8597.png"
 
                         elif date == "20-04-23":
                             # dem = os.path.join(map_dir, 'dec-30_rgba_ndvi.png')
@@ -240,10 +239,10 @@ class UploadApp(HydraHeadApp):
                             ph_stg = 'Harvest/Hard Dough'
                             if vg_idx == 'NDVI':
                                 dem = os.path.join(map_dir, 'ndvi/20_apr.png')
-                                vg = "https://user-images.githubusercontent.com/65748116/230503462-174267ad-d850-41f7-afc3-b68ae9cd9e18.png"
+                                vg = "https://user-images.githubusercontent.com/89920086/236949020-0816ded2-dfa5-4d6a-af2a-ba2307bd2f8d.png"
                             elif vg_idx == 'SAVI':
                                 dem = os.path.join(map_dir, 'savi/20_apr.png')
-                                vg = "https://user-images.githubusercontent.com/65748116/230503711-e11d3019-a17b-4ab4-a217-924624ba7af4.png"
+                                vg = "https://user-images.githubusercontent.com/89920086/236949102-7f426579-167c-4320-b905-8b483984d642.png"
 
 
                     with row1_col1:
