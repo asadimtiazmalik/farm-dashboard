@@ -3,6 +3,7 @@ import leafmap.foliumap as leafmap
 import pandas as pd
 from hydralit import HydraHeadApp
 import altair as alt
+import os
 
 
 class HomeApp(HydraHeadApp):
