@@ -12,6 +12,8 @@ class HomeApp(HydraHeadApp):
         with open('./apps/styles.css') as f:
             st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
         st.markdown('### Metrics')
+        cwd = os.getcwd()
+        st.write(cwd)
         col1, col2, col3 = st.columns(3)
         col1.metric("Total Area", "11 Acres")
         col2.metric("Average NDVI", "0.155", "-2%")
