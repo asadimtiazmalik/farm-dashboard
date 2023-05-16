@@ -184,10 +184,10 @@ class UploadApp(HydraHeadApp):
                             # dem = os.path.join(map_dir, 'ndvi/26_dec.png')
                             # geo = os.path.join(geojs, '26_dec.json')
                             # health = os.path.join(hs, 'health_stat_26_dec.json')
-                            with open(os.path.abspath(os.getcwd()) + "\\geojson\\ndvi\\26_dec.json") as response:
+                            with open(os.path.abspath(os.getcwd()) + "/geojson/ndvi/26_dec.json") as response:
                                 geo = json.load(response)
 
-                            with open(os.path.abspath(os.getcwd()) + "\\geojson\\health_stats\\health_stat_26_dec.json") as response:
+                            with open(os.path.abspath(os.getcwd()) + "/geojson/health_stats/health_stat_26_dec.json") as response:
                                 health = json.load(response)  
                             # st.write(geo)
                             # st.write(health)
