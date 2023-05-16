@@ -14,10 +14,10 @@ class HomeApp(HydraHeadApp):
             st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
         st.markdown('### Metrics')
         cwd = os.getcwd()
-        st.write(cwd)
+        # st.write(cwd)
         col1, col2, col3 = st.columns(3)
         col1.metric("Total Area", "11 Acres")
-        col2.metric("Average NDVI", "0.155", "-2%")
+        col2.metric("Average NDVI", "0.233", "-2%")
         col3.metric("Phenotypes", "100 +")
 
         # Row B

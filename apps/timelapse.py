@@ -6,6 +6,7 @@ from folium.raster_layers import ImageOverlay
 import pandas as pd 
 import altair as alt
 from hydralit import HydraHeadApp
+import json
 
 
 class UploadApp(HydraHeadApp):
@@ -129,19 +130,22 @@ class UploadApp(HydraHeadApp):
         width = 1200
         height = 1000
         # map_dir = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\images\\map"
-        # lgnd_dir = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\images\\legends"
+        lgnd_dir = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\images\\legends"
         # geojs = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\geojson\\ndvi"
-        # hs = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\geojson\\health_stats"
-        map_dir = "\\app\\farm-dashboard\\images\\map"
-        geojs = "\\app\\farm-dashboard\\geojson\\ndvi"
-        hs = "\\app\\farm-dashboard\\geojson\\health_status"    
- 
+        hs = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\geojson\\health_stats"
+        map_dir = os.path.abspath(os.getcwd()) + '\\images\\map'
+        # geojs = os.path.abspath(os.getcwd()) + '\\geojson\\ndvi'
+        geojs = "./../geojson/ndvi"
+        # hs =    os.path.abspath(os.getcwd()) + '\\geojson\\health_status'
+        # st.write(os.path.abspath(os.getcwd()))
         isDetected = True
+        # print(os.listdir(os.path.abspath(os.getcwd())))
 
 
         # with open('C:\\Users\\DC\\Documents\\MachVIS\\FYP\\farm-dashboard\\apps\\styles.css') as f:
         #     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
         with st.sidebar:
+                st.markdown("# **Visualize**")
                 date = st.selectbox(
                     "Select a date", ["26-12-22", "20-01-23", "24-02-23", "20-04-23"], index=1
                 )
@@ -178,8 +182,15 @@ class UploadApp(HydraHeadApp):
                     if date:
                         if date == "26-12-22":
                             # dem = os.path.join(map_dir, 'ndvi/26_dec.png')
-                            geo = os.path.join(geojs, '26_dec.json')
-                            health = os.path.join(hs, 'health_stat_26_dec.json')
+                            # geo = os.path.join(geojs, '26_dec.json')
+                            # health = os.path.join(hs, 'health_stat_26_dec.json')
+                            with open(os.path.abspath(os.getcwd()) + "\\geojson\\ndvi\\26_dec.json") as response:
+                                geo = json.load(response)
+
+                            with open(os.path.abspath(os.getcwd()) + "\\geojson\\health_stats\\health_stat_26_dec.json") as response:
+                                health = json.load(response)  
+                            # st.write(geo)
+                            # st.write(health)
                             coords = [[33.672652308289614,73.12770497102615], [33.67436783460362,73.1307913403036]]
                             ndvi = 0.01
                             savi = 0.02
@@ -187,18 +198,24 @@ class UploadApp(HydraHeadApp):
                             i_area = "1.55 Acres"
                             ph_stg = 'Tillering'
                             if vg_idx == 'NDVI':
-                                dem = os.path.join(map_dir, 'ndvi/26_dec.png')
+                                dem = os.path.join(map_dir, 'ndvi\\26_dec.png')
                                 vg = "https://user-images.githubusercontent.com/65748116/230503462-174267ad-d850-41f7-afc3-b68ae9cd9e18.png"
                             elif vg_idx == 'SAVI':
-                                dem = os.path.join(map_dir, 'savi/26_dec.png')
+                                dem = os.path.join(map_dir, 'savi\\26_dec.png')
                                 # geo = os.path.join(geojs, '20_jan.geojson')
                                 vg = "https://user-images.githubusercontent.com/89920086/236948605-4210eff5-a36a-4363-b53a-b82c8e39d575.png"
 
                         elif date == "20-01-23":
                             # dem = os.path.join(map_dir, 'dec-26_rgba_ndvi.png')"./images/map"
                             # geo = os.path.join(geojs, '26.json')"./geojson/ndvi"
-                            geo = os.path.join(geojs, '20_jan.geojson')
-                            health = os.path.join(hs, 'health_stat_20_jan.json')
+                            # geo = os.path.join(geojs, '20_jan.geojson')
+                            with open(os.path.abspath(os.getcwd()) + "\\geojson\\ndvi\\20_jan.geojson") as response:
+                                geo = json.load(response)
+
+                            with open(os.path.abspath(os.getcwd()) + "\\geojson\\health_stats\\health_stat_20_jan.json") as response:
+                                health = json.load(response)  
+                            # st.write(geo)
+                            # health = os.path.join(hs, 'health_stat_20_jan.json')
                             coords = [[33.67373853226241, 73.1275590957505], [33.67529399233269, 73.130218601282]]
                             ndvi = 0.25
                             savi = 0.03
@@ -206,17 +223,22 @@ class UploadApp(HydraHeadApp):
                             i_area = "4.32 Acres"
                             ph_stg = 'Stem Elongation'                    
                             if vg_idx == 'NDVI':
-                                dem = os.path.join(map_dir, 'ndvi/20_jan.png')
+                                dem = os.path.join(map_dir, 'ndvi\\20_jan.png')
                                 vg = "https://user-images.githubusercontent.com/89920086/236948717-cea6b7ac-6a0e-4652-81ee-56d1ace7c1be.png"
                             elif vg_idx == 'SAVI':
-                                dem = os.path.join(map_dir, 'savi/20_jan.png')
+                                dem = os.path.join(map_dir, 'savi\\20_jan.png')
                                 vg = "https://user-images.githubusercontent.com/89920086/236949397-75e6b114-4d12-4dc2-8f48-5452413dbf7a.png"
                         
                         elif date == "24-02-23":
                             # dem = os.path.join(map_dir, 'dec-30_rgba_ndvi.png')
                             # geo = os.path.join(geojs, '26.json')
-                            geo = os.path.join(geojs, '24_feb.geojson')
-                            health = os.path.join(hs, 'health_stat_24_feb.json')
+                            with open(os.path.abspath(os.getcwd()) + "\\geojson\\ndvi\\24_feb.geojson") as response:
+                                geo = json.load(response)
+
+                            with open(os.path.abspath(os.getcwd()) + "\\geojson\\health_stats\\24_feb.geojson") as response:
+                                health = json.load(response)                   
+                            # geo = geojs+ "/24_feb.geojson"
+                            # health = os.path.join(hs, 'health_stat_24_feb.json')
                             coords = [[33.67373853226241, 73.1275590957505], [33.67529399233269, 73.130218601282]]
                             ndvi = 0.5
                             savi = 0.5
@@ -224,18 +246,22 @@ class UploadApp(HydraHeadApp):
                             i_area = "0.998 Acres"
                             ph_stg = 'Heading'                    
                             if vg_idx == 'NDVI':
-                                dem = os.path.join(map_dir, 'ndvi/24_feb.png')
+                                dem = os.path.join(map_dir, 'ndvi\\24_feb.png')
                                 vg = "https://user-images.githubusercontent.com/89920086/236948650-273224df-35c4-4644-99ab-216e6b1ec70f.png"
                             elif vg_idx == 'SAVI':
                                 # geo = os.path.join(hs, 'health_stat_24_feb')
-                                dem = os.path.join(map_dir, 'savi/24_feb.png')
+                                dem = os.path.join(map_dir, 'savi\\24_feb.png')
                                 vg = "https://user-images.githubusercontent.com/89920086/236949313-727ce5f2-1e61-42d0-be1c-9c5b34ca8597.png"
 
                         elif date == "20-04-23":
-                            # dem = os.path.join(map_dir, 'dec-30_rgba_ndvi.png')
-                            # geo = os.path.join(geojs, '26.json')
-                            geo = os.path.join(geojs, '20_apr.geojson')
-                            health = os.path.join(hs, 'health_stat_20_apr.json')
+                            # geo = os.path.join(geojs, '20_apr.geojson')
+                            # health = os.path.join(hs, 'health_stat_20_apr.json')
+                            with open(os.path.abspath(os.getcwd()) + "\\geojson\\ndvi\\20_apr.geojson") as response:
+                                geo = json.load(response)
+
+                            with open(os.path.abspath(os.getcwd()) + "\\geojson\\health_stats\\health_stat_20_apr.json") as response:
+                                health = json.load(response)        
+
                             coords = [[33.67373853226241, 73.1275590957505], [33.67529399233269, 73.130218601282]]
                             ndvi = 0.17
                             savi = 0.25
@@ -243,10 +269,10 @@ class UploadApp(HydraHeadApp):
                             i_area = "2.41 Acres"
                             ph_stg = 'Harvest/Hard Dough'
                             if vg_idx == 'NDVI':
-                                dem = os.path.join(map_dir, 'ndvi/20_apr.png')
+                                dem = os.path.join(map_dir, 'ndvi\\20_apr.png')
                                 vg = "https://user-images.githubusercontent.com/89920086/236949020-0816ded2-dfa5-4d6a-af2a-ba2307bd2f8d.png"
                             elif vg_idx == 'SAVI':
-                                dem = os.path.join(map_dir, 'savi/20_apr.png')
+                                dem = os.path.join(map_dir, 'savi\\20_apr.png')
                                 vg = "https://user-images.githubusercontent.com/89920086/236949102-7f426579-167c-4320-b905-8b483984d642.png"
 
 
@@ -254,8 +280,6 @@ class UploadApp(HydraHeadApp):
 
 
                         m = display_map((33.6752939,73.1302186), 17, geo, health, dem, "DEM", vg, coords, isDetected, op)
-                        print(m.get_bounds())
-                        print(m.location)
                         m.to_streamlit()
                     
                     # with row1_col2:
