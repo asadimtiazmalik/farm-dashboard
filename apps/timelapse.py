@@ -133,7 +133,7 @@ class UploadApp(HydraHeadApp):
         lgnd_dir = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\images\\legends"
         # geojs = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\geojson\\ndvi"
         hs = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\geojson\\health_stats"
-        map_dir = os.path.abspath(os.getcwd()) + '\\images\\map'
+        map_dir = os.path.abspath(os.getcwd()) + '/images/map'
         # geojs = os.path.abspath(os.getcwd()) + '\\geojson\\ndvi'
         geojs = "./../geojson/ndvi"
         # hs =    os.path.abspath(os.getcwd()) + '\\geojson\\health_status'
@@ -199,7 +199,7 @@ class UploadApp(HydraHeadApp):
                             ph_stg = 'Tillering'
                             if vg_idx == 'NDVI':
                                 # dem = os.path.join(map_dir, 'ndvi\\26_dec.png')
-                                dem = map_dir + '\\ndvi\\26_dec.png'
+                                dem = map_dir + '/ndvi/26_dec.png'
                                 vg = "https://user-images.githubusercontent.com/65748116/230503462-174267ad-d850-41f7-afc3-b68ae9cd9e18.png"
                             elif vg_idx == 'SAVI':
                                 dem = os.path.join(map_dir, 'savi\\26_dec.png')
