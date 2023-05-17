@@ -9,7 +9,7 @@ import os
 class HomeApp(HydraHeadApp):
      
     def run(self):
-        # st.set_page_config(layout="wide")
+        # st.set_page_config(theme="light")
         with open('./apps/styles.css') as f:
             st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
         st.markdown('### Metrics')
