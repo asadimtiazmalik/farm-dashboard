@@ -1,6 +1,6 @@
 from contextlib import contextmanager
 from time import sleep
-
+from playwright.sync_api import Page, expect
 import pytest
 # from playwright.sync_api import Page, expect
 
@@ -50,3 +50,14 @@ def run_streamlit():
             yield 1
         finally:
             p.kill()
+
+def test_wheat_health_dashboard(page: Page):
+
+    # Wait for the app to load
+    expect(page).to_have_title("Wheat Health Monitoring Dashboard")
+    # columns = page.query_selector_all(".css-1r6slb0")
+    # assert len(columns) == 3
+    # for column in columns:
+    #     metric_text = column.inner_text()
+    #     print(metric_text)
+    #     # metric_elements = column.query_selector_all(".css-1r6slb0")

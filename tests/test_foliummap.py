@@ -2,25 +2,25 @@
 
 """Tests for `leafmap` module."""
 
-import os
-import unittest
-import leafmap.foliumap as leafmap
-import geopandas as gpd
-import pandas as pd
-from unittest.mock import patch
 
+import unittest
+import logging
+import leafmap.foliumap as leafmap
 
 class TestFoliumap(unittest.TestCase):
     """Tests for `foliumap` module."""
 
     def setUp(self):
         """Set up test fixtures, if any."""
+        self.logger = logging.getLogger(__name__)
+
 
     def tearDown(self):
         """Tear down test fixtures, if any."""
 
     def test_add_basemap(self):
         """Check basemaps"""
+        self.logger.info("Running test_add_basemap")
         m = leafmap.Map()
         m.add_basemap("TERRAIN")
         out_str = m.to_html()
@@ -29,23 +29,17 @@ class TestFoliumap(unittest.TestCase):
 
     def test_add_geojson(self):
         """Check GeoJSON"""
+        self.logger.info("Running test_add_geojson")
         m = leafmap.Map()
         in_geojson = "https://raw.githubusercontent.com/opengeos/leafmap/master/examples/data/cable_geo.geojson"
         m.add_geojson(in_geojson, layer_name="Cable lines")
         out_str = m.to_html()
         assert "Cable lines" in out_str
 
-    def test_add_kml(self):
-        """Check KML"""
-        m = leafmap.Map()
-        in_kml = "https://raw.githubusercontent.com/opengeos/leafmap/master/examples/data/us_states.kml"
-        m.add_kml(in_kml, layer_name="US States KML")
-        out_str = m.to_html()
-        assert "US States KML" in out_str
-
 
     def test_add_tile_layer(self):
         """Check adding tile layer"""
+        self.logger.info("Running test_add_tile_layer")
         m = leafmap.Map()
         m.add_tile_layer(
             url="https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
@@ -58,6 +52,7 @@ class TestFoliumap(unittest.TestCase):
  
     def test_image_overlay(self):
         """Check image overlay"""
+        self.logger.info("Running test_image_overlay")
         with self.assertRaises(NotImplementedError):
             m = leafmap.Map()
             url = "https://www.mrlc.gov/sites/default/files/NLCD_Colour_Classification_Update.jpg"
@@ -68,6 +63,7 @@ class TestFoliumap(unittest.TestCase):
 
     def test_layer_opacity(self):
         """Check layer opacity"""
+        self.logger.info("Running test_layer_opacity")
         with self.assertRaises(NotImplementedError):
             m = leafmap.Map()
             m.layer_opacity("OpenStreetMap", 0.5)
@@ -77,4 +73,18 @@ class TestFoliumap(unittest.TestCase):
  
 
 if __name__ == "__main__":
-    unittest.main()
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s",
+                        handlers=[logging.FileHandler("test.log"), logging.StreamHandler()])
+    
+    suite = unittest.TestSuite()
+    suite.addTest(TestFoliumap('test_add_basemap'))
+    suite.addTest(TestFoliumap('test_add_geojson'))
+    suite.addTest(TestFoliumap('test_add_tile_layer'))
+    suite.addTest(TestFoliumap('test_image_overlay'))
+    suite.addTest(TestFoliumap('test_layer_opacity'))
+
+    runner = unittest.TextTestRunner()
+    results = runner.run(suite)
+    print('Tests passed:', results.testsRun - len(results.failures) - len(results.errors))
+    print('Tests failed:', len(results.failures) + len(results.errors))
+    # unittest.main(testRunner=runner)

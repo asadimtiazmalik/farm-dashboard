@@ -247,7 +247,7 @@ class UploadApp(HydraHeadApp):
                         elif date == "24-02-23":
                             # dem = os.path.join(map_dir, 'dec-30_rgba_ndvi.png')
                             # geo = os.path.join(geojs, '26.json')
-                            with open(os.path.abspath(os.getcwd()) + "\\geojson\\ndvi\\24_feb.geojson") as response:
+                            with open(os.path.abspath(os.getcwd()) + "/geojson/ndvi/24_feb.geojson") as response:
                                 geo = json.load(response)
 
                             # with open(os.path.abspath(os.getcwd()) + "\\geojson\\health_stats\\24_feb.geojson") as response:
@@ -273,7 +273,7 @@ class UploadApp(HydraHeadApp):
                         elif date == "20-04-23":
                             # geo = os.path.join(geojs, '20_apr.geojson')
                             # health = os.path.join(hs, 'health_stat_20_apr.json')
-                            with open(os.path.abspath(os.getcwd()) + "\\geojson\\ndvi\\20_apr.geojson") as response:
+                            with open(os.path.abspath(os.getcwd()) + "/geojson/ndvi/20_apr.geojson") as response:
                                 geo = json.load(response)
 
                             # with open(os.path.abspath(os.getcwd()) + "\\geojson\\health_stats\\health_stat_20_apr.json") as response:

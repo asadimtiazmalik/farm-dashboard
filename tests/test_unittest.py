@@ -2,6 +2,7 @@ import unittest
 import leafmap.foliumap as leafmap
 from folium.plugins import FloatImage
 from folium.raster_layers import ImageOverlay
+from apps import UploadApp
 
 def display_map(center, zoom, geo_json, orthomosaic, layer_title, legend_url, detected=False, opacity=0.7):
     
