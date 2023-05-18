@@ -41,42 +41,48 @@ class UploadApp(HydraHeadApp):
 
         
 
-        def display_healthy_region(healthy=5.22, infected=1.55):
-            """
-            Display a donut chart indicating the healthy and infected regions.
+        # def display_healthy_region(healthy=5.22, infected=1.55):
+        #     """
+        #     Display a donut chart indicating the healthy and infected regions.
 
-            Parameters:
-            -----------
-            healthy: float, optional
-                The area in acres of healthy region.
-            infected: float, optional
-                The area in acres of infected region. 
-            out_of_bounds: float, optional
-                The area in acres of out of bounds region.
+        #     Parameters:
+        #     -----------
+        #     healthy: float, optional
+        #         The area in acres of healthy region.
+        #     infected: float, optional
+        #         The area in acres of infected region. 
+        #     out_of_bounds: float, optional
+        #         The area in acres of out of bounds region.
 
-            Returns:
-            --------
-            altair.Chart
-                A donut chart representing the areas of healthy, infected, and out of bounds regions.
-            """
-            # Define the data for the donut chart
-            source = pd.DataFrame({"category": ["Healthy Area", "Infected Area"], 
-                                "area in Acres": [healthy, infected]})
+        #     Returns:
+        #     --------
+        #     altair.Chart
+        #         A donut chart representing the areas of healthy, infected, and out of bounds regions.
+        #     """
+        #     # Define the data for the donut chart
+        #     source = pd.DataFrame({"category": ["Healthy Area", "Infected Area"], 
+        #                         "area in Acres": [healthy, infected]})
 
-            figure = alt.Chart(source).mark_arc(innerRadius=50).encode(
-                theta=alt.Theta(field="area in Acres", type="quantitative"),
-                color=alt.Color(field="category", type="nominal"),
-                opacity = alt.value(0.7),
-            )
+        #     figure = alt.Chart(source).mark_arc(innerRadius=50).encode(
+        #         theta=alt.Theta(field="area in Acres", type="quantitative"),
+        #         color=alt.Color(field="category", type="nominal"),
+        #         opacity = alt.value(0.7),
+        #     )
 
-            return figure
+        #     return figure
         
+        @st.cache_data()
         def field_type_colour(feature):
             if feature['properties']['Health Report'] == 'Healthy':
                 return 'green'
             elif feature['properties']['Health Report'] == 'Unhealthy':
                 return 'red'
-
+        
+        @st.cache_data()
+        def load_json(path):
+            with open(os.path.abspath(os.getcwd()) + path) as response:
+                geo = json.load(response)
+            return geo 
         # @st.cache_data()
         def display_map(center, zoom, ndvi_json, orthomosaic, layer_title, legend_url, coords, detected=False, opacity=0.7):
             
@@ -142,7 +148,7 @@ class UploadApp(HydraHeadApp):
         # map_dir = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\images\\map"
         lgnd_dir = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\images\\legends"
         # geojs = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\geojson\\ndvi"
-        hs = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\geojson\\health_stats"
+        # hs = "C:\\Users\\DC\\Documents\\MachVIS\\FYP\\hydralit_app\\farm-dashboard\\geojson\\health_stats"
         map_dir = os.path.abspath(os.getcwd()) + '/images/map'
         # geojs = os.path.abspath(os.getcwd()) + '\\geojson\\ndvi'
         geojs = "./../geojson/ndvi"
@@ -194,8 +200,10 @@ class UploadApp(HydraHeadApp):
                             # dem = os.path.join(map_dir, 'ndvi/26_dec.png')
                             # geo = os.path.join(geojs, '26_dec.json')
                             # health = os.path.join(hs, 'health_stat_26_dec.json')
-                            with open(os.path.abspath(os.getcwd()) + "/geojson/ndvi/26_dec.geojson") as response:
-                                geo = json.load(response)
+                            
+                            # with open(os.path.abspath(os.getcwd()) + "/geojson/ndvi/26_dec.geojson") as response:
+                            #     geo = json.load(response)
+                            geo = load_json("/geojson/ndvi/26_dec.geojson")
 
                             # with open(os.path.abspath(os.getcwd()) + "/geojson/health_stats/health_stat_26_dec.json") as response:
                             #     health = json.load(response)  
@@ -222,9 +230,9 @@ class UploadApp(HydraHeadApp):
                             # dem = os.path.join(map_dir, 'dec-26_rgba_ndvi.png')"./images/map"
                             # geo = os.path.join(geojs, '26.json')"./geojson/ndvi"
                             # geo = os.path.join(geojs, '20_jan.geojson')
-                            with open(os.path.abspath(os.getcwd()) + "/geojson/ndvi/20_jan.geojson") as response:
-                                geo = json.load(response)
-
+                            # with open(os.path.abspath(os.getcwd()) + "/geojson/ndvi/20_jan.geojson") as response:
+                            #     geo = json.load(response)
+                            geo = load_json("/geojson/ndvi/20_jan.geojson")
                             # with open(os.path.abspath(os.getcwd()) + "/geojson/health_stats/health_stat_20_jan.json") as response:
                             #     health = json.load(response)  
                             # st.write(geo)
@@ -240,15 +248,16 @@ class UploadApp(HydraHeadApp):
                                 layer_name = 'NDVI Orthomosaic'
                                 vg = "https://user-images.githubusercontent.com/89920086/236948717-cea6b7ac-6a0e-4652-81ee-56d1ace7c1be.png"
                             elif vg_idx == 'SAVI':
-                                dem = map_dir + '/savi/26_dec.png'
+                                dem = map_dir + '/savi/20_jan.png'
                                 layer_name = 'SAVI Orthomosaic'
                                 vg = "https://user-images.githubusercontent.com/89920086/236949397-75e6b114-4d12-4dc2-8f48-5452413dbf7a.png"
                         
                         elif date == "24-02-23":
                             # dem = os.path.join(map_dir, 'dec-30_rgba_ndvi.png')
                             # geo = os.path.join(geojs, '26.json')
-                            with open(os.path.abspath(os.getcwd()) + "/geojson/ndvi/24_feb.geojson") as response:
-                                geo = json.load(response)
+                            # with open(os.path.abspath(os.getcwd()) + "/geojson/ndvi/24_feb.geojson") as response:
+                            #     geo = json.load(response)
+                            geo = load_json("/geojson/ndvi/24_feb.geojson")
 
                             # with open(os.path.abspath(os.getcwd()) + "\\geojson\\health_stats\\24_feb.geojson") as response:
                             #     health = json.load(response)                   
@@ -273,8 +282,9 @@ class UploadApp(HydraHeadApp):
                         elif date == "20-04-23":
                             # geo = os.path.join(geojs, '20_apr.geojson')
                             # health = os.path.join(hs, 'health_stat_20_apr.json')
-                            with open(os.path.abspath(os.getcwd()) + "/geojson/ndvi/20_apr.geojson") as response:
-                                geo = json.load(response)
+                            # with open(os.path.abspath(os.getcwd()) + "/geojson/ndvi/20_apr.geojson") as response:
+                            #     geo = json.load(response)
+                            geo = load_json("/geojson/ndvi/20_apr.geojson")
 
                             # with open(os.path.abspath(os.getcwd()) + "\\geojson\\health_stats\\health_stat_20_apr.json") as response:
                             #     health = json.load(response)        

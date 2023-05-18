@@ -82,12 +82,12 @@ class HomeApp(HydraHeadApp):
             return points, areas
         
         def get_chart(data, indice, line_color, gradient_color):
-            hover = alt.selection_single(
-                fields=["index"],
-                nearest=True,
-                on="mouseover",
-                empty="none",
-            )
+            # hover = alt.selection_single(
+            #     fields=["index"],
+            #     nearest=True,
+            #     on="mouseover",
+            #     empty="none",
+            # )
 
             areas = (
                 alt.Chart(data.reset_index(), title=f"Evolution of {indice}")

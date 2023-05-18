@@ -7,6 +7,6 @@ class AppUser(HttpUser):
     @task
     def home_page(self):
         self.client.get("/")
-    @task
-    def raster_viz(self):
-        self.client.get("/raster_viz")
+    # @task
+    # def raster_viz(self):
+    #     self.client.get("/raster_viz")
