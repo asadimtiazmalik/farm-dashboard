@@ -163,7 +163,7 @@ class UploadApp(HydraHeadApp):
         with st.sidebar:
                 st.markdown("# **Visualize**")
                 date = st.selectbox(
-                    "Select a date", ["26-12-22", "20-01-23", "24-02-23", "20-04-23"], index=1
+                    "Select a date", ["26-12-22", "20-01-23", "24-02-23", "20-04-23"], index=0
                 )
 
                 vg_idx = st.radio(
